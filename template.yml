@@ -1,0 +1,40 @@
+# This template is a work in progress
+# It will be used to generate an Xcode project
+options:
+  - name: project
+    description: The name of the project
+    question: What is the name of your project?
+    required: true
+    type: string
+  - name: targets
+    description: The list of targets
+    question: Do you wish to add a target?
+    type: array
+    options:
+      - name: name
+        question: What's the name of the target?
+        type: string
+      - name: type
+        question: What sort of target?
+        type: choice
+        choices:
+          - application
+          - framework
+      - name: platform
+        question: What platform?
+        type: choice
+        choices:
+         - iOS
+         - macOS
+         - tvOS
+         - watchOS
+files:
+  - template: project.yml
+  - template: Target/ApplicationDelegate.swift
+    path: "{{ name }}/ApplicationDelegate.swift"
+    context: targets
+    include: type == 'application'
+  - template: Target/Header.h
+    path: "{{ name }}/Header.h"
+    context: targets
+    include: type == 'framework'
